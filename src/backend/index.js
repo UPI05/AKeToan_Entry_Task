@@ -7,6 +7,13 @@ import expressValidator from 'express-validator';
 
 import pkg from '../../package.json';
 
+const mongoSanitize = require('express-mongo-sanitize');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const api = require('./api');
+
+dotenv.config({ path: '.env' });
+
 const startServer = async () => {
   const app = express();
 
@@ -38,6 +45,21 @@ const startServer = async () => {
   app.use(expressValidator());
   app.use(cookieParser());
   app.use(express.static('public'));
+
+  // Data sanitization against NoSQL query injection
+  app.use(mongoSanitize());
+
+  // Connect database
+  const DB = process.env.DATABASE.replace('<password>', process.env.DATABASE_PASSWORD);
+  console.log(DB);
+  mongoose
+    .connect(DB, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    })
+    .then(() => console.log('DB connection successful!'));
+
+  /*
   app.get('*', async (req, res) => {
     res.status(200).end(`
       <!DOCTYPE html>
@@ -74,10 +96,20 @@ const startServer = async () => {
       </html>  
     `);
   });
+  */
+
+  app.use('/api/v1', api);
 
   app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json(err);
+    let { statusCode, message } = err;
+
+    statusCode = statusCode || 500;
+    message = message || '';
+
+    res.status(statusCode).json({
+      statusCode,
+      message,
+    });
   });
 
   app.listen(process.env.PORT || 3000, () => {
