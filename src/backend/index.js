@@ -51,15 +51,28 @@ const startServer = async () => {
 
   // Connect database
   const DB = process.env.DATABASE.replace('<password>', process.env.DATABASE_PASSWORD);
-  console.log(DB);
+
   mongoose
     .connect(DB, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     })
-    .then(() => console.log('DB connection successful!'));
+    .then(() => console.log('DB connect successfully!'));
 
-  /*
+  app.use('/api/v1', api);
+
+  app.use((err, req, res, next) => {
+    let { statusCode, message } = err;
+
+    statusCode = statusCode || 500;
+    message = message || '';
+
+    res.status(statusCode).json({
+      statusCode,
+      message,
+    });
+  });
+
   app.get('*', async (req, res) => {
     res.status(200).end(`
       <!DOCTYPE html>
@@ -95,21 +108,6 @@ const startServer = async () => {
         </body>
       </html>  
     `);
-  });
-  */
-
-  app.use('/api/v1', api);
-
-  app.use((err, req, res, next) => {
-    let { statusCode, message } = err;
-
-    statusCode = statusCode || 500;
-    message = message || '';
-
-    res.status(statusCode).json({
-      statusCode,
-      message,
-    });
   });
 
   app.listen(process.env.PORT || 3000, () => {

@@ -4,10 +4,12 @@ import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './app';
+import 'antd/dist/antd.css';
 
 import './index.css';
 
-ReactDOM.render(<h1>Hello world</h1>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
 
 if (module.hot) {
   module.hot.accept();

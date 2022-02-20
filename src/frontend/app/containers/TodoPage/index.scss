@@ -1,0 +1,45 @@
+.wrapper {
+    background-color: white !important;
+    margin-top: 20px;
+}
+
+.content {
+    width: 60%;
+    margin: 0 auto;
+    background-color: white !important;
+    margin-bottom: 20px;
+}
+
+.alert {
+    margin-bottom: 20px !important;
+    background-color: #a4f5a4 !important;
+}
+
+.tdlist {
+    background-color: white !important;
+}
+
+.btnAdd {
+    margin-bottom: 20px !important;
+}
+
+.btnDelete {
+    float: right !important;
+    background-color: red !important;
+    border: none !important;
+    margin-right: 4px;
+}
+
+.btnEdit {
+    float: right !important;
+    background-color: #39c039 !important;
+    border: none !important;
+}
+
+.item {
+    border-top: 0.5px solid #e6e4e4;
+    border-left: 1px solid #e6e4e4;
+    border-right: 1px solid #e6e4e4;
+    border-bottom: 0.5px solid #e6e4e4;
+    padding: 15px;
+}
