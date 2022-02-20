@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Layout, Input, Button, Alert } from 'antd';
 import './index.scss';
-import { getAllItemsApi, addItemApi } from '../../../api/items';
+import { getAllItemsApi, addItemApi, deleteItemApi } from '../../../api/items';
 
 const { Content } = Layout;
 
@@ -13,6 +13,11 @@ function TodoPage() {
 
   const addItem = async e => {
     const res = await addItemApi({ title: inputData.current.state.value });
+    getAllItems();
+  };
+
+  const deleteItem = async (id, e) => {
+    const res = await deleteItemApi(id);
     getAllItems();
   };
 
@@ -36,15 +41,16 @@ function TodoPage() {
         </Input.Group>
         <Layout className="tdlist">
           {items &&
-            items.map(item => {
+            items.map((item, i) => {
               return (
-                <Content className="item">
+                <Content className="item" key={i}>
                   <Input.Group compact>
                     {item.title}
                     <Button type="primary" className="btnEdit">
                       Edit
                     </Button>
-                    <Button type="primary" danger className="btnDelete">
+                    {/* eslint no-underscore-dangle: 0 */}
+                    <Button onClick={() => deleteItem(item._id)} type="primary" danger className="btnDelete">
                       Delete
                     </Button>
                   </Input.Group>

@@ -10,7 +10,6 @@ export const get = async (url, headers = {}) => {
       },
       withCredentials: true,
     });
-    console.log(data);
     return { ...data };
   } catch (err) {
     return { error: -1, ...err.response.data };
@@ -21,6 +20,21 @@ export const post = async (url, body, headers = {}) => {
   try {
     const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
     const { data } = await axios.post(finalUrl, body, {
+      headers: {
+        ...headers,
+      },
+      withCredentials: true,
+    });
+    return { ...data };
+  } catch (err) {
+    return { error: -1, ...err.response.data };
+  }
+};
+
+export const Delete = async (url, headers = {}) => {
+  try {
+    const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
+    const { data } = await axios.delete(finalUrl, {
       headers: {
         ...headers,
       },
