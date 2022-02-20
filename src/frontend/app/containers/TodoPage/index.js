@@ -6,9 +6,15 @@ import { getAllItemsApi, addItemApi, deleteItemApi } from '../../../api/items';
 const { Content } = Layout;
 
 function TodoPage() {
+  const inputData = useRef(null);
+
+  const [items, setItems] = React.useState([]);
+  const [itemsDisplayState, setItemsDisplayState] = React.useState([]);
+
   const getAllItems = async () => {
     const dt = await getAllItemsApi();
     setItems(dt.data);
+    setItemsDisplayState(Array(dt.data.length).fill(false));
   };
 
   const addItem = async e => {
@@ -21,9 +27,16 @@ function TodoPage() {
     getAllItems();
   };
 
-  const inputData = useRef(null);
-
-  const [items, setItems] = React.useState();
+  const editItem = i => {
+    const dt = itemsDisplayState;
+    dt[i] = !dt[i];
+    console.log(dt);
+    console.log(i);
+    const d = [];
+    for (let x = 1; x <= items.length; x += 1) d.push(dt[x - 1]);
+    console.log(d);
+    setItemsDisplayState(d);
+  };
 
   React.useEffect(() => {
     getAllItems();
@@ -31,6 +44,7 @@ function TodoPage() {
 
   return (
     <Layout className="wrapper">
+      {alert('ok')}
       <Content className="content">
         <Alert className="alert" message="Success! Entity created" type="success" />
         <Input.Group compact className="btnAdd">
@@ -46,12 +60,24 @@ function TodoPage() {
                 <Content className="item" key={i}>
                   <Input.Group compact>
                     {item.title}
-                    <Button type="primary" className="btnEdit">
+                    <Button
+                      type="primary"
+                      onClick={e => {
+                        editItem(i);
+                      }}
+                      className="btnEdit"
+                    >
                       Edit
                     </Button>
                     {/* eslint no-underscore-dangle: 0 */}
                     <Button onClick={() => deleteItem(item._id)} type="primary" danger className="btnDelete">
                       Delete
+                    </Button>
+                  </Input.Group>
+                  <Input.Group compact className="btnUpdate" style={itemsDisplayState[i] === false ? { display: 'none' } : {}}>
+                    <Input style={{ width: 'calc(100% - 100px)' }} />
+                    <Button type="primary" onClick={addItem}>
+                      Update
                     </Button>
                   </Input.Group>
                 </Content>
