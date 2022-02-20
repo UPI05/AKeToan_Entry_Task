@@ -96,6 +96,9 @@ const config = {
   optimization: {
     minimize: process.env.NODE_ENV === 'production',
   },
+  node: {
+    fs: 'empty'
+  },  
 
   devtool: process.env.NODE_ENV === 'production' ? 'none' : 'cheap-module-eval-source-map'
 };
