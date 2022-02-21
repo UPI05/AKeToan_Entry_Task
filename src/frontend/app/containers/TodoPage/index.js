@@ -2,10 +2,11 @@ import React, { useRef } from 'react';
 import { Layout, Input, Button, Alert } from 'antd';
 import './index.scss';
 import { getAllItemsApi, addItemApi, deleteItemApi, updateItemApi } from '../../../api/items';
-import { editItems, editItemsDisplayState } from '../../../redux/actions';
+import { editItems, editItemsDisplayState, addToken } from '../../../redux/actions';
 import store from '../../../redux/store';
 
 const { Content } = Layout;
+const token = store.getState().token;
 
 function TodoPage() {
   // Refs
@@ -19,7 +20,7 @@ function TodoPage() {
 
   //
   const getAllItems = async () => {
-    const { error, data } = await getAllItemsApi();
+    const { error, data } = await getAllItemsApi(token);
     if (error === -1 || data.statusCode !== 200) {
       alert('Can not fetch data!');
     } else {
@@ -33,7 +34,7 @@ function TodoPage() {
   };
 
   const addItem = async e => {
-    const { error, data } = await addItemApi({ title: inputDataAdd.current.state.value });
+    const { error, data } = await addItemApi({ title: inputDataAdd.current.state.value }, token);
     if (error === -1 || data.statusCode !== 200) {
       alert('Error!');
     } else {
@@ -46,7 +47,7 @@ function TodoPage() {
   };
 
   const deleteItem = async (id, e) => {
-    const { error, data } = await deleteItemApi(id);
+    const { error, data } = await deleteItemApi(id, token);
     if (error === -1 || data.statusCode !== 200) {
       alert('Failed!');
     } else {
@@ -69,7 +70,7 @@ function TodoPage() {
   };
 
   const updateItem = async (i, id) => {
-    const { error, data } = await updateItemApi({ id, newTitle: inputDataUpdate.current[i].state.value });
+    const { error, data } = await updateItemApi({ id, newTitle: inputDataUpdate.current[i].state.value }, token);
     if (error === -1 || data.statusCode !== 200) {
       alert('Failed!');
     } else {
@@ -83,6 +84,10 @@ function TodoPage() {
   }, []);
 
   React.useEffect(() => {
+    store.dispatch({
+      token:
+        'eyJhbGciOiJSUzI1NiIsImtpZCI6ImFjYjZiZTUxZWZlYTZhNDE5ZWM5MzI1ZmVhYTFlYzQ2NjBmNWIzN2MiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTI3MjAzMDQ2MDg0LTZrcnFsaHMxMDM5ZXRzM3IxbDh2ZWxmc3JjYTMzODEzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTI3MjAzMDQ2MDg0LTZrcnFsaHMxMDM5ZXRzM3IxbDh2ZWxmc3JjYTMzODEzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEyMDIyODcwMzk4OTI2ODMyNjczIiwiZW1haWwiOiJpbG9zdG15ZW1haWxoaWV1dkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Il95dnIzQ2J1WkpNX05mUGd4S2lCQ1EiLCJuYW1lIjoiVi4gSGlldSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQVRYQUp5OEFUSGp2VVdlaUI0YUlXUmpFeWVibU1VUFR2dHdXYnZWZ1J3SD1zOTYtYyIsImdpdmVuX25hbWUiOiJWLiIsImZhbWlseV9uYW1lIjoiSGlldSIsImxvY2FsZSI6InZpIiwiaWF0IjoxNjQ1NDI1NzQ2LCJleHAiOjE2NDU0MjkzNDYsImp0aSI6ImM2YzI0OTcyNmVhMjNiMGRmYjQxZjE3ZDhiZDI5MDE5ZTU2YzhiMjkifQ.M62HZ577ddNYEe5ctbkfu4eoRW4KIznqkNcZGrZ1dmQyntVCY7FfUXyyR9p1xxdH-xoJtWZzjfB89tB2kftOHr9CbRx6teGQKkSf05FV6uTsgIXvf0OteSnarJNDMjEgxjY3A969TvlGMjSQGhhqpuc2nrpG_L9RBuSak6yhYMHAjI5jD1GY9MdYxfDT5mXenozAEP54kp_zRVIrjFyUTPzE9-c4QplFdf3G8OnQ7Vj_2LIQ5FAqYQNo2faRFtbT8F3zSYRY02Z3t3L-rheNQ8lZJRdo5VCqFydTQ5PJ6-nFQrxnK-PoUWphJx3khvRTtmIefdiPfFtIFFo82SLk1w',
+    });
     inputDataUpdate.current = inputDataUpdate.current.slice(0, items.length);
   });
 

@@ -13,3 +13,10 @@ export const editItemsDisplayState = itemsDisplayState => ({
     itemsDisplayState,
   },
 });
+
+export const addToken = token => ({
+  type: actions.addToken,
+  payload: {
+    token,
+  },
+});
