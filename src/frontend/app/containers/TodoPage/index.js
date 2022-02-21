@@ -11,7 +11,7 @@ const { Content } = Layout;
 function TodoPage() {
   // Get token and check token expire
   const token = store.getState().token;
-  if (localStorage.getItem('tokenExpiresAt') && localStorage.getItem('tokenExpiresAt') <= Date.now()) {
+  if (localStorage.getItem('tokenExpiresAt') && Number(localStorage.getItem('tokenExpiresAt')) <= Number(Date.now())) {
     localStorage.clear();
     store.dispatch(addToken(''));
     return <>{alert('Session expired!')}</>;
