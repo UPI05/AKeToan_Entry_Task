@@ -12,7 +12,7 @@ export const get = async (url, headers = {}) => {
     });
     return { ...data };
   } catch (err) {
-    return { error: -1, ...err.response.data };
+    return { error: -1, data: null };
   }
 };
 
@@ -27,7 +27,7 @@ export const post = async (url, body, headers = {}) => {
     });
     return { ...data };
   } catch (err) {
-    return { error: -1, ...err.response.data };
+    return { error: -1, data: null };
   }
 };
 
@@ -42,6 +42,21 @@ export const Delete = async (url, headers = {}) => {
     });
     return { ...data };
   } catch (err) {
-    return { error: -1, ...err.response.data };
+    return { error: -1, data: null };
+  }
+};
+
+export const update = async (url, body, headers = {}) => {
+  try {
+    const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
+    const { data } = await axios.put(finalUrl, body, {
+      headers: {
+        ...headers,
+      },
+      withCredentials: true,
+    });
+    return { ...data };
+  } catch (err) {
+    return { error: -1, data: null };
   }
 };

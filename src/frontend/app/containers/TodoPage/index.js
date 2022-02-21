@@ -1,54 +1,97 @@
 import React, { useRef } from 'react';
 import { Layout, Input, Button, Alert } from 'antd';
 import './index.scss';
-import { getAllItemsApi, addItemApi, deleteItemApi } from '../../../api/items';
+import { getAllItemsApi, addItemApi, deleteItemApi, updateItemApi } from '../../../api/items';
+import { editItems, editItemsDisplayState } from '../../../redux/actions';
+import store from '../../../redux/store';
 
 const { Content } = Layout;
 
 function TodoPage() {
-  const inputData = useRef(null);
+  // Refs
+  const inputDataAdd = useRef(null);
+  const inputDataUpdate = useRef([]);
 
+  // States
   const [items, setItems] = React.useState([]);
   const [itemsDisplayState, setItemsDisplayState] = React.useState([]);
+  const [alertStatus, setAlertStatus] = React.useState(false);
 
+  //
   const getAllItems = async () => {
-    const dt = await getAllItemsApi();
-    setItems(dt.data);
-    setItemsDisplayState(Array(dt.data.length).fill(false));
+    const { error, data } = await getAllItemsApi();
+    if (error === -1) {
+      alert('Can not fetch data!');
+    } else {
+      setItems(data);
+      store.dispatch(editItems(data));
+      if (!itemsDisplayState.length) {
+        setItemsDisplayState(Array(data.length).fill(false));
+        store.dispatch(editItemsDisplayState(Array(data.length).fill(false)));
+      }
+    }
   };
 
   const addItem = async e => {
-    const res = await addItemApi({ title: inputData.current.state.value });
-    getAllItems();
+    const { error, data } = await addItemApi({ title: inputDataAdd.current.state.value });
+    if (error === -1) {
+      alert('Error!');
+    } else {
+      setAlertStatus(true);
+      setTimeout(() => {
+        setAlertStatus(false);
+        getAllItems();
+      }, 3000);
+    }
   };
 
   const deleteItem = async (id, e) => {
-    const res = await deleteItemApi(id);
-    getAllItems();
+    const { error, data } = await deleteItemApi(id);
+    if (error === -1) {
+      alert('Failed!');
+    } else {
+      alert('Success!');
+      getAllItems();
+    }
   };
 
   const editItem = i => {
     const dt = itemsDisplayState;
     dt[i] = !dt[i];
-    console.log(dt);
-    console.log(i);
-    const d = [];
-    for (let x = 1; x <= items.length; x += 1) d.push(dt[x - 1]);
-    console.log(d);
+    // Create new Array because of Immutibility
+    const d = [...dt];
     setItemsDisplayState(d);
+    store.dispatch(editItemsDisplayState(d));
+  };
+
+  const setRef = (el, i) => {
+    inputDataUpdate.current[i] = el;
+  };
+
+  const updateItem = async (i, id) => {
+    const { error, data } = await updateItemApi({ id, newTitle: inputDataUpdate.current[i].state.value });
+    if (error === -1) {
+      alert('Failed!');
+    } else {
+      alert('Success!');
+      getAllItems();
+    }
   };
 
   React.useEffect(() => {
     getAllItems();
   }, []);
 
+  React.useEffect(() => {
+    inputDataUpdate.current = inputDataUpdate.current.slice(0, items.length);
+  });
+
   return (
     <Layout className="wrapper">
-      {alert('ok')}
       <Content className="content">
-        <Alert className="alert" message="Success! Entity created" type="success" />
+        <Alert className="alert" style={alertStatus ? {} : { display: 'none' }} message="Success! Entity created" type="success" />
         <Input.Group compact className="btnAdd">
-          <Input ref={inputData} style={{ width: 'calc(100% - 60px)' }} />
+          <Input ref={inputDataAdd} style={{ width: 'calc(100% - 60px)' }} />
           <Button type="primary" onClick={addItem}>
             Add
           </Button>
@@ -75,8 +118,8 @@ function TodoPage() {
                     </Button>
                   </Input.Group>
                   <Input.Group compact className="btnUpdate" style={itemsDisplayState[i] === false ? { display: 'none' } : {}}>
-                    <Input style={{ width: 'calc(100% - 100px)' }} />
-                    <Button type="primary" onClick={addItem}>
+                    <Input ref={el => setRef(el, i)} style={{ width: 'calc(100% - 100px)' }} />
+                    <Button type="primary" onClick={e => updateItem(i, item._id)}>
                       Update
                     </Button>
                   </Input.Group>

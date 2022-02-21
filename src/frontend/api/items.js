@@ -1,4 +1,4 @@
-import { Delete, get, post } from '../utils/fetchUtils';
+import { Delete, get, post, update } from '../utils/fetchUtils';
 
 export function getAllItemsApi() {
   return get('/api/v1/items/getAll');
@@ -10,4 +10,8 @@ export function addItemApi(body) {
 
 export function deleteItemApi(id) {
   return Delete(`/api/v1/items/delete/${id}`);
+}
+
+export function updateItemApi(body) {
+  return update('/api/v1/items/edit', body);
 }
