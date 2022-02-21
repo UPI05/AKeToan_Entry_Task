@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "AKeToan Entry Project",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:coverage": "jest --coverage",
     "start": "nodemon --exec babel-node src/backend/index.js",
     "build": "rm -rf build && NODE_ENV=production webpack --progress",
@@ -22,6 +22,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-validator": "^5.3.1",
     "google-auth-library": "^7.12.0",
+    "jest": "^24.9.0",
     "mongoose": "^5.5.10",
     "morgan": "^1.10.0",
     "node-sass": "4.12",
@@ -33,7 +34,8 @@
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
     "redux": "^4.1.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "supertest": "^6.2.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -85,5 +87,11 @@
     "not dead",
     "not ie <= 9",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
 }

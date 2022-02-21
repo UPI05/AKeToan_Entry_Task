@@ -1,0 +1,9 @@
+exports.RES_MSG_TOKEN_NOT_FOUND = 'Token not found!';
+exports.RES_MSG_CAN_NOT_GET_ITEMS = 'Can not get items!';
+exports.RES_MSG_GET_ITEMS_SUCCESS = 'Get items successfully!';
+exports.RES_MSG_CAN_NOT_ADD_ITEM = 'Can not add item!';
+exports.RES_MSG_ADD_ITEM_SUCCESS = 'Add item successfully!';
+exports.RES_MSG_CAN_NOT_EDIT_ITEM = 'Can not edit item!';
+exports.RES_MSG_EDIT_ITEM_SUCCESS = 'Edit item successfully';
+exports.RES_MSG_CAN_NOT_DELETE_ITEM = 'Can not delete item';
+exports.RES_MSG_DELETE_ITEM_SUCCESS = 'Delete item successfully';

@@ -1,3 +1,5 @@
+import * as constants from '../common/constants';
+
 const { OAuth2Client } = require('google-auth-library');
 const { AppError } = require('../common/errors/AppError');
 
@@ -8,11 +10,11 @@ exports.validate = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
       token = req.headers.authorization.split(' ')[1];
     } else {
-      return next(new AppError(401, 'Token not found'));
+      return next(new AppError(401, constants.RES_MSG_TOKEN_NOT_FOUND));
     }
 
     if (!token) {
-      return next(new AppError(401, 'Token not found'));
+      return next(new AppError(401, constants.RES_MSG_TOKEN_NOT_FOUND));
     }
 
     // Verify token

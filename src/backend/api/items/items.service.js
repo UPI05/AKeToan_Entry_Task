@@ -1,3 +1,5 @@
+import * as constants from '../../common/constants';
+
 const { Items } = require('../../models/itemsModel');
 const { AppError } = require('../../common/errors/AppError');
 
@@ -10,10 +12,10 @@ module.exports = {
       item.save();
       return {
         statusCode: 200,
-        message: 'Add item successfully',
+        message: constants.RES_MSG_ADD_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', 'Can not add item');
+      throw new AppError('500', constants.RES_MSG_CAN_NOT_ADD_ITEM);
     }
   },
   editItem: async (_id, newTitle) => {
@@ -26,10 +28,10 @@ module.exports = {
       );
       return {
         statusCode: 200,
-        message: 'Edit item successfully',
+        message: constants.RES_MSG_EDIT_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', 'Can not add item');
+      throw new AppError('500', constants.RES_MSG_CAN_NOT_EDIT_ITEM);
     }
   },
   deleteItem: async _id => {
@@ -39,10 +41,10 @@ module.exports = {
       });
       return {
         statusCode: 200,
-        message: 'Delete item successfully',
+        message: constants.RES_MSG_DELETE_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', 'Can not add item');
+      throw new AppError('500', constants.RES_MSG_CAN_NOT_DELETE_ITEM);
     }
   },
   getAllItems: async () => {
@@ -50,11 +52,11 @@ module.exports = {
       const dt = await Items.find({});
       return {
         statusCode: 200,
-        message: 'Get items successfully',
+        message: constants.RES_MSG_GET_ITEMS_SUCCESS,
         data: dt,
       };
     } catch (err) {
-      throw new AppError('500', 'Can not add item');
+      throw new AppError('500', constants.RES_MSG_CAN_NOT_GET_ITEMS);
     }
   },
 };
