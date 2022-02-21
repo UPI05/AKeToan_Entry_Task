@@ -20,21 +20,21 @@ function TodoPage() {
   //
   const getAllItems = async () => {
     const { error, data } = await getAllItemsApi();
-    if (error === -1) {
+    if (error === -1 || data.statusCode !== 200) {
       alert('Can not fetch data!');
     } else {
-      setItems(data);
-      store.dispatch(editItems(data));
+      setItems(data.data);
+      store.dispatch(editItems(data.data));
       if (!itemsDisplayState.length) {
-        setItemsDisplayState(Array(data.length).fill(false));
-        store.dispatch(editItemsDisplayState(Array(data.length).fill(false)));
+        setItemsDisplayState(Array(data.data.length).fill(false));
+        store.dispatch(editItemsDisplayState(Array(data.data.length).fill(false)));
       }
     }
   };
 
   const addItem = async e => {
     const { error, data } = await addItemApi({ title: inputDataAdd.current.state.value });
-    if (error === -1) {
+    if (error === -1 || data.statusCode !== 200) {
       alert('Error!');
     } else {
       setAlertStatus(true);
@@ -47,7 +47,7 @@ function TodoPage() {
 
   const deleteItem = async (id, e) => {
     const { error, data } = await deleteItemApi(id);
-    if (error === -1) {
+    if (error === -1 || data.statusCode !== 200) {
       alert('Failed!');
     } else {
       alert('Success!');
@@ -70,7 +70,7 @@ function TodoPage() {
 
   const updateItem = async (i, id) => {
     const { error, data } = await updateItemApi({ id, newTitle: inputDataUpdate.current[i].state.value });
-    if (error === -1) {
+    if (error === -1 || data.statusCode !== 200) {
       alert('Failed!');
     } else {
       alert('Success!');

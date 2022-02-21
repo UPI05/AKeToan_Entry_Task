@@ -10,7 +10,7 @@ export const get = async (url, headers = {}) => {
       },
       withCredentials: true,
     });
-    return { ...data };
+    return { data };
   } catch (err) {
     return { error: -1, data: null };
   }
@@ -25,7 +25,7 @@ export const post = async (url, body, headers = {}) => {
       },
       withCredentials: true,
     });
-    return { ...data };
+    return { data };
   } catch (err) {
     return { error: -1, data: null };
   }
@@ -40,7 +40,7 @@ export const Delete = async (url, headers = {}) => {
       },
       withCredentials: true,
     });
-    return { ...data };
+    return { data };
   } catch (err) {
     return { error: -1, data: null };
   }
@@ -55,7 +55,7 @@ export const update = async (url, body, headers = {}) => {
       },
       withCredentials: true,
     });
-    return { ...data };
+    return { data };
   } catch (err) {
     return { error: -1, data: null };
   }
