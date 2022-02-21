@@ -5,10 +5,10 @@ import './index.scss';
 
 export default function HomePage() {
   const handleSuccess = res => {
-    console.log('fuck');
+    console.log(res.tokenId);
   };
   const handleFailure = res => {
-    console.log(res);
+    console.log(res.tokenId);
   };
   return (
     <div className="container">
