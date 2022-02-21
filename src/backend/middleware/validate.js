@@ -22,7 +22,7 @@ exports.validate = async (req, res, next) => {
       audience: process.env.CLIENT_ID,
     });
 
-    // Get name and email if needed
+    // Check user permission here if needed
     const { name, email } = ticket.getPayload();
 
     // Grant access

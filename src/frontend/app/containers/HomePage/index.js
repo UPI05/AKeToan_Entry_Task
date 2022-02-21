@@ -1,21 +1,33 @@
 import React from 'react';
 import GoogleLogin, { GoogleLogout } from 'react-google-login';
 import store from '../../../redux/store';
+import { addToken } from '../../../redux/actions';
 import './index.scss';
 
 export default function HomePage() {
+  // State
+  const [refresh, setRefresh] = React.useState(false);
+  //
   const handleSuccess = res => {
-    console.log(res.tokenId);
+    localStorage.setItem('token', res.tokenId);
+    store.dispatch(addToken(res.tokenId));
+    const refr = !refresh;
+    setRefresh(refr);
+    alert('Login successfully!');
   };
   const handleFailure = res => {
-    console.log(res.tokenId);
+    alert('Login failed!');
   };
   const handleLogout = res => {
+    localStorage.clear();
+    store.dispatch(addToken(''));
+    const refr = !refresh;
+    setRefresh(refr);
     alert('logouted');
   };
   return (
     <div className="container">
-      {false ? (
+      {localStorage.getItem('token') || store.getState().token ? (
         <GoogleLogout
           clientId="127203046084-6krqlhs1039ets3r1l8velfsrca33813.apps.googleusercontent.com"
           buttonText="Log out"

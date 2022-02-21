@@ -6,9 +6,10 @@ import { editItems, editItemsDisplayState, addToken } from '../../../redux/actio
 import store from '../../../redux/store';
 
 const { Content } = Layout;
-const token = store.getState().token;
 
 function TodoPage() {
+  const token = store.getState().token;
+
   // Refs
   const inputDataAdd = useRef(null);
   const inputDataUpdate = useRef([]);
@@ -84,10 +85,6 @@ function TodoPage() {
   }, []);
 
   React.useEffect(() => {
-    store.dispatch({
-      token:
-        'eyJhbGciOiJSUzI1NiIsImtpZCI6ImFjYjZiZTUxZWZlYTZhNDE5ZWM5MzI1ZmVhYTFlYzQ2NjBmNWIzN2MiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiMTI3MjAzMDQ2MDg0LTZrcnFsaHMxMDM5ZXRzM3IxbDh2ZWxmc3JjYTMzODEzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTI3MjAzMDQ2MDg0LTZrcnFsaHMxMDM5ZXRzM3IxbDh2ZWxmc3JjYTMzODEzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTEyMDIyODcwMzk4OTI2ODMyNjczIiwiZW1haWwiOiJpbG9zdG15ZW1haWxoaWV1dkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6Il95dnIzQ2J1WkpNX05mUGd4S2lCQ1EiLCJuYW1lIjoiVi4gSGlldSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQVRYQUp5OEFUSGp2VVdlaUI0YUlXUmpFeWVibU1VUFR2dHdXYnZWZ1J3SD1zOTYtYyIsImdpdmVuX25hbWUiOiJWLiIsImZhbWlseV9uYW1lIjoiSGlldSIsImxvY2FsZSI6InZpIiwiaWF0IjoxNjQ1NDI1NzQ2LCJleHAiOjE2NDU0MjkzNDYsImp0aSI6ImM2YzI0OTcyNmVhMjNiMGRmYjQxZjE3ZDhiZDI5MDE5ZTU2YzhiMjkifQ.M62HZ577ddNYEe5ctbkfu4eoRW4KIznqkNcZGrZ1dmQyntVCY7FfUXyyR9p1xxdH-xoJtWZzjfB89tB2kftOHr9CbRx6teGQKkSf05FV6uTsgIXvf0OteSnarJNDMjEgxjY3A969TvlGMjSQGhhqpuc2nrpG_L9RBuSak6yhYMHAjI5jD1GY9MdYxfDT5mXenozAEP54kp_zRVIrjFyUTPzE9-c4QplFdf3G8OnQ7Vj_2LIQ5FAqYQNo2faRFtbT8F3zSYRY02Z3t3L-rheNQ8lZJRdo5VCqFydTQ5PJ6-nFQrxnK-PoUWphJx3khvRTtmIefdiPfFtIFFo82SLk1w',
-    });
     inputDataUpdate.current = inputDataUpdate.current.slice(0, items.length);
   });
 
