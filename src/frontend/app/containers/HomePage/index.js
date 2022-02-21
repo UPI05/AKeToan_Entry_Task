@@ -10,10 +10,12 @@ export default function HomePage() {
   //
   const handleSuccess = res => {
     localStorage.setItem('token', res.tokenId);
+    localStorage.setItem('tokenExpiresAt', res.tokenObj.expires_at);
     store.dispatch(addToken(res.tokenId));
     const refr = !refresh;
     setRefresh(refr);
     alert('Login successfully!');
+    console.log(res);
   };
   const handleFailure = res => {
     alert('Login failed!');
@@ -23,7 +25,7 @@ export default function HomePage() {
     store.dispatch(addToken(''));
     const refr = !refresh;
     setRefresh(refr);
-    alert('logouted');
+    alert('Logouted');
   };
   return (
     <div className="container">

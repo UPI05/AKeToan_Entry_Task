@@ -10,7 +10,7 @@ function NavBar() {
     <Layout>
       <Header className="header">
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['']}>
           <Menu.Item key="1">
             <Link to="/">Home</Link>
           </Menu.Item>
