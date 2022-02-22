@@ -15,7 +15,7 @@ export default function HomePage() {
     const refr = !refresh;
     setRefresh(refr);
     alert('Login successfully!');
-    console.log(res);
+    console.info(res);
   };
   const handleFailure = res => {
     alert('Login failed!');
