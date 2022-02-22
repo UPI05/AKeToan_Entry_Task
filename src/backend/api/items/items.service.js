@@ -15,7 +15,7 @@ module.exports = {
         message: constants.RES_MSG_ADD_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', constants.RES_MSG_CAN_NOT_ADD_ITEM);
+      throw new AppError(500, constants.RES_MSG_CAN_NOT_ADD_ITEM);
     }
   },
   editItem: async (_id, newTitle) => {
@@ -31,7 +31,7 @@ module.exports = {
         message: constants.RES_MSG_EDIT_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', constants.RES_MSG_CAN_NOT_EDIT_ITEM);
+      throw new AppError(500, constants.RES_MSG_CAN_NOT_EDIT_ITEM);
     }
   },
   deleteItem: async _id => {
@@ -44,7 +44,7 @@ module.exports = {
         message: constants.RES_MSG_DELETE_ITEM_SUCCESS,
       };
     } catch (err) {
-      throw new AppError('500', constants.RES_MSG_CAN_NOT_DELETE_ITEM);
+      throw new AppError(500, constants.RES_MSG_CAN_NOT_DELETE_ITEM);
     }
   },
   getAllItems: async () => {
@@ -56,7 +56,7 @@ module.exports = {
         data: dt,
       };
     } catch (err) {
-      throw new AppError('500', constants.RES_MSG_CAN_NOT_GET_ITEMS);
+      throw new AppError(500, constants.RES_MSG_CAN_NOT_GET_ITEMS);
     }
   },
 };
