@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import store from '../redux/store';
@@ -14,6 +14,9 @@ import Header from './components/NavBar';
 import './style.scss';
 
 export default function App() {
+  // State
+  const [dtFetched, setDtFetched] = useState(false);
+
   const dispatch = useDispatch();
   const token = localStorage.getItem('token') || '';
 
@@ -25,15 +28,25 @@ export default function App() {
     }
     dispatch(addUserInfo({ name: data.name, email: data.email, imageUrl: data.picture }));
     dispatch(addToken(token));
+    return setDtFetched(true);
   };
 
-  if (token) {
-    verifyToken();
-  }
+  useEffect(() => {
+    if (token) {
+      verifyToken();
+    } else {
+      setDtFetched(true);
+    }
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Header />
-      {renderRoute()}
-    </BrowserRouter>
+    <>
+      {dtFetched && (
+        <BrowserRouter>
+          <Header />
+          {renderRoute()}
+        </BrowserRouter>
+      )}
+    </>
   );
 }

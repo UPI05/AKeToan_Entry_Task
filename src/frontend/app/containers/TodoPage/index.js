@@ -13,6 +13,7 @@ function TodoPage() {
   const items = useSelector(state => state.items);
   const itemsDisplayState = useSelector(state => state.itemsDisplayState);
   const token = useSelector(state => state.token);
+  // const userInfo = useSelector(state => state.userInfo);
 
   // Dispatch to redux store
   const dispatch = useDispatch();
@@ -26,11 +27,8 @@ function TodoPage() {
 
   //
   const getAllItems = async () => {
-    console.log(token);
     const { error, data } = await getAllItemsApi(token);
     if (error === -1 || data.statusCode !== 200) {
-      console.log(error);
-      console.log(data);
       alert('Can not fetch data!');
     } else {
       if (!itemsDisplayState.length) {
@@ -93,6 +91,10 @@ function TodoPage() {
     inputDataUpdate.current = inputDataUpdate.current.slice(0, items.length);
   });
 
+  React.useEffect(() => {
+    if (token) getAllItems();
+  }, [token]);
+  
   if (token) {
     return (
       <Layout className="wrapper">
@@ -105,35 +107,34 @@ function TodoPage() {
             </Button>
           </Input.Group>
           <Layout className="tdlist">
-            {items &&
-              items.map((item, i) => {
-                return (
-                  <Content className="item" key={i}>
-                    <Input.Group compact>
-                      {item.title}
-                      <Button
-                        type="primary"
-                        onClick={e => {
-                          editItem(i);
-                        }}
-                        className="btnEdit"
-                      >
-                        Edit
-                      </Button>
-                      {/* eslint no-underscore-dangle: 0 */}
-                      <Button onClick={() => deleteItem(item._id)} type="primary" danger className="btnDelete">
-                        Delete
-                      </Button>
-                    </Input.Group>
-                    <Input.Group compact className="btnUpdate" style={itemsDisplayState[i] === false ? { display: 'none' } : {}}>
-                      <Input ref={el => setRef(el, i)} style={{ width: 'calc(100% - 100px)' }} />
-                      <Button type="primary" onClick={e => updateItem(i, item._id)}>
-                        Update
-                      </Button>
-                    </Input.Group>
-                  </Content>
-                );
-              })}
+            {items.map((item, i) => {
+              return (
+                <Content className="item" key={i}>
+                  <Input.Group compact>
+                    {item.title}
+                    <Button
+                      type="primary"
+                      onClick={e => {
+                        editItem(i);
+                      }}
+                      className="btnEdit"
+                    >
+                      Edit
+                    </Button>
+                    {/* eslint no-underscore-dangle: 0 */}
+                    <Button onClick={() => deleteItem(item._id)} type="primary" danger className="btnDelete">
+                      Delete
+                    </Button>
+                  </Input.Group>
+                  <Input.Group compact className="btnUpdate" style={itemsDisplayState[i] === false ? { display: 'none' } : {}}>
+                    <Input ref={el => setRef(el, i)} style={{ width: 'calc(100% - 100px)' }} />
+                    <Button type="primary" onClick={e => updateItem(i, item._id)}>
+                      Update
+                    </Button>
+                  </Input.Group>
+                </Content>
+              );
+            })}
           </Layout>
         </Content>
       </Layout>

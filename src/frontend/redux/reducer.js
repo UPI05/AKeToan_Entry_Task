@@ -9,7 +9,7 @@ export default function reducer(state = { items: [], itemsDisplayState: [], toke
     case actions.addToken:
       return { items: state.items, itemsDisplayState: state.itemsDisplayState, token: action.payload.token, userInfo: state.userInfo };
     case actions.addUserInfo:
-      return { items: state.items, itemsDisplayState: state.itemsDisplayState, token: action.token, userInfo: action.payload.userInfo };
+      return { items: state.items, itemsDisplayState: state.itemsDisplayState, token: state.token, userInfo: action.payload.userInfo };
     default:
       return state;
   }
