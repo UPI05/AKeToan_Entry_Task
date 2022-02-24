@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Layout, Input, Button, Alert } from 'antd';
 import './index.scss';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllItemsApi, addItemApi, deleteItemApi, updateItemApi } from '../../../api/items';
 import { editItems, editItemsDisplayState, addToken } from '../../../redux/actions';
 import store from '../../../redux/store';
@@ -9,12 +9,19 @@ import store from '../../../redux/store';
 const { Content } = Layout;
 
 function TodoPage() {
-  // Get token and check token expire
-  const token = store.getState().token;
+  // Get data from redux store
+  const items = useSelector(state => state.items);
+  const itemsDisplayState = useSelector(state => state.itemsDisplayState);
+  const token = useSelector(state => state.token);
+
+  // Dispatch to redux store
+  const dispatch = useDispatch();
+
+  // Check if token expired
   if (localStorage.getItem('tokenExpiresAt') && Number(localStorage.getItem('tokenExpiresAt')) <= Number(Date.now())) {
     localStorage.clear();
-    store.dispatch(addToken(''));
-    return <>{alert('Session expired!')}</>;
+    dispatch(addToken(''));
+    // return <>{alert('Session expired!')}</>;
   }
 
   // Refs
@@ -22,8 +29,6 @@ function TodoPage() {
   const inputDataUpdate = useRef([]);
 
   // States
-  const [items, setItems] = React.useState([]);
-  const [itemsDisplayState, setItemsDisplayState] = React.useState([]);
   const [alertStatus, setAlertStatus] = React.useState(false);
 
   //
@@ -32,12 +37,10 @@ function TodoPage() {
     if (error === -1 || data.statusCode !== 200) {
       alert('Can not fetch data!');
     } else {
-      setItems(data.data);
-      store.dispatch(editItems(data.data));
       if (!itemsDisplayState.length) {
-        setItemsDisplayState(Array(data.data.length).fill(false));
-        store.dispatch(editItemsDisplayState(Array(data.data.length).fill(false)));
+        dispatch(editItemsDisplayState(Array(data.data.length).fill(false)));
       }
+      dispatch(editItems(data.data));
     }
   };
 
@@ -69,8 +72,7 @@ function TodoPage() {
     dt[i] = !dt[i];
     // Create new Array because of Immutibility
     const d = [...dt];
-    setItemsDisplayState(d);
-    store.dispatch(editItemsDisplayState(d));
+    dispatch(editItemsDisplayState(d));
   };
 
   const setRef = (el, i) => {

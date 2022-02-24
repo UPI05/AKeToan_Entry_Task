@@ -3,7 +3,7 @@ const itemsService = require('./items.service');
 module.exports = {
   addItem: async (req, res, next) => {
     try {
-      const dt = await itemsService.addItem(req.body.title);
+      const dt = await itemsService.addItem(req.body.title, req.isAdmin);
       res.send(dt);
     } catch (err) {
       next(err);
@@ -11,7 +11,7 @@ module.exports = {
   },
   editItem: async (req, res, next) => {
     try {
-      const dt = await itemsService.editItem(req.body.id, req.body.newTitle);
+      const dt = await itemsService.editItem(req.body.id, req.body.newTitle, req.isAdmin);
       res.send(dt);
     } catch (err) {
       next(err);
@@ -19,7 +19,7 @@ module.exports = {
   },
   deleteItem: async (req, res, next) => {
     try {
-      const dt = await itemsService.deleteItem(req.params.id);
+      const dt = await itemsService.deleteItem(req.params.id, req.isAdmin);
       res.send(dt);
     } catch (err) {
       next(err);
@@ -27,7 +27,7 @@ module.exports = {
   },
   getAllItems: async (req, res, next) => {
     try {
-      const dt = await itemsService.getAllItems();
+      const dt = await itemsService.getAllItems(req.isAdmin);
       res.send(dt);
     } catch (err) {
       next(err);

@@ -5,13 +5,20 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 import React from 'react';
 import ReactDOM from 'react-dom';
 import dotenv from 'dotenv';
+import { Provider } from 'react-redux';
 import App from './app';
+import store from './redux/store';
 import 'antd/dist/antd.css';
 import './index.css';
 
 dotenv.config({ path: '.env' });
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app'),
+);
 
 if (module.hot) {
   module.hot.accept();

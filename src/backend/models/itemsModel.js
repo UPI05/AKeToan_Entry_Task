@@ -5,6 +5,10 @@ const itemsSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 exports.Items = mongoose.model('Items', itemsSchema);

@@ -1,6 +1,6 @@
 import * as actions from './actionTypes';
 
-export default function reducer(state = [], action) {
+export default function reducer(state = { items: [], itemsDisplayState: [], token: '' }, action) {
   switch (action.type) {
     case actions.editItems:
       return { items: action.payload.items, itemsDisplayState: state.itemsDisplayState, token: state.token };

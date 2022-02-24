@@ -28,6 +28,11 @@ exports.validate = async (req, res, next) => {
     const { name, email } = ticket.getPayload();
 
     // Grant access
+    if (process.env.ADMIN_IDENT_EMAILS.split('/').includes(email)) {
+      req.isAdmin = true;
+    } else {
+      req.isAdmin = false;
+    }
     return next();
   } catch (error) {
     return next(new AppError(500, error.message));
