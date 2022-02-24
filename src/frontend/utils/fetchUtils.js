@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { getFullApiUrl, isAbsoluteURL } from './url';
 
-export const get = async (url, headers = {}) => {
+export const get = async (url, headers = {}, withCredentials = true) => {
   try {
     const finalUrl = isAbsoluteURL(url) ? url : getFullApiUrl(url);
     const { data } = await axios.get(finalUrl, {
       headers: {
         ...headers,
       },
-      withCredentials: true,
+      withCredentials,
     });
     return { data };
   } catch (err) {

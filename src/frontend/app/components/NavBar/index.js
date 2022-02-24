@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+import GoogleOAuth from '../GoogleOAuth';
 import './index.scss';
 
 const { Header } = Layout;
@@ -19,6 +20,7 @@ function NavBar() {
           </Menu.Item>
         </Menu>
       </Header>
+      <GoogleOAuth />
     </Layout>
   );
 }

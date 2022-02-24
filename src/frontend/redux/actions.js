@@ -20,3 +20,10 @@ export const addToken = token => ({
     token,
   },
 });
+
+export const addUserInfo = userInfo => ({
+  type: actions.addUserInfo,
+  payload: {
+    userInfo,
+  },
+});

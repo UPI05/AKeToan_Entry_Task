@@ -17,13 +17,6 @@ function TodoPage() {
   // Dispatch to redux store
   const dispatch = useDispatch();
 
-  // Check if token expired
-  if (localStorage.getItem('tokenExpiresAt') && Number(localStorage.getItem('tokenExpiresAt')) <= Number(Date.now())) {
-    localStorage.clear();
-    dispatch(addToken(''));
-    // return <>{alert('Session expired!')}</>;
-  }
-
   // Refs
   const inputDataAdd = useRef(null);
   const inputDataUpdate = useRef([]);
@@ -33,8 +26,11 @@ function TodoPage() {
 
   //
   const getAllItems = async () => {
+    console.log(token);
     const { error, data } = await getAllItemsApi(token);
     if (error === -1 || data.statusCode !== 200) {
+      console.log(error);
+      console.log(data);
       alert('Can not fetch data!');
     } else {
       if (!itemsDisplayState.length) {
@@ -90,14 +86,14 @@ function TodoPage() {
   };
 
   React.useEffect(() => {
-    if (localStorage.getItem('token') || store.getState().token) getAllItems();
+    if (token) getAllItems();
   }, []);
 
   React.useEffect(() => {
     inputDataUpdate.current = inputDataUpdate.current.slice(0, items.length);
   });
 
-  if (localStorage.getItem('token') || store.getState().token) {
+  if (token) {
     return (
       <Layout className="wrapper">
         <Content className="content">
@@ -145,7 +141,7 @@ function TodoPage() {
   }
 
   // Redirect to HomePage
-  return <>{alert('Please go to Home and login!')}</>;
+  return <>{alert('Please login!')}</>;
 }
 
 export default TodoPage;
